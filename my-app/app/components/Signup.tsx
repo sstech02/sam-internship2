@@ -10,6 +10,7 @@ type SignupProps = {
 function Signup({ onClose, onSwitch }: SignupProps) {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   async function signup(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -17,32 +18,23 @@ function Signup({ onClose, onSwitch }: SignupProps) {
     const email = loginEmail.trim();
     const password = loginPassword;
 
-    if (!email) {
-      console.log("Please enter an email.");
-      return;
-    }
-
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      console.log("Please enter a valid email format.");
-      return;
-    }
-
-    if (password.length < 6) {
-      console.log("Password must be at least 6 characters.");
-      return;
-    }
-
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      console.log(userCredential.user);
       onClose();
     } catch (error: any) {
-      console.log("code:", error.code);
-      console.log("message:", error.message);
+      if (
+        error.code === "auth/user-not-found" ||
+        error.code === "auth/wrong-password" ||
+        error.code === "auth/invalid-credential"
+      ) {
+        setErrorMessage("Invalid email or password.");
+      } else {
+        setErrorMessage(error.message || "Login failed. Please try again.");
+      }
     }
   }
 
@@ -51,6 +43,7 @@ function Signup({ onClose, onSwitch }: SignupProps) {
       <div className="auth">
         <div className="auth__content">
           <div className="auth__title">Sign up to Summarist</div>
+          <div className="auth__error">{errorMessage}</div>
 
           <form className="auth__main--form" onSubmit={signup}>
             <input

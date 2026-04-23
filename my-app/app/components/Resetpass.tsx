@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { auth } from '../firebase/init'
 import {
-  ActionCodeSettings,
   confirmPasswordReset,
-  fetchSignInMethodsForEmail,
   sendPasswordResetEmail,
   verifyPasswordResetCode,
 } from 'firebase/auth'
@@ -78,19 +76,7 @@ function Resetpass({ onClose, onSwitch }: ResetpassProps) {
     setIsLoading(true);
 
     try {
-      const signInMethods = await fetchSignInMethodsForEmail(auth, trimmedEmail);
-
-      if (signInMethods.length > 0 && !signInMethods.includes("password")) {
-        setErrorMessage("This email is registered with social login. Please sign in with Google.");
-        return;
-      }
-
-      const actionCodeSettings: ActionCodeSettings = {
-        url: `${window.location.origin}${window.location.pathname}`,
-        handleCodeInApp: false,
-      };
-
-      await sendPasswordResetEmail(auth, trimmedEmail, actionCodeSettings);
+      await sendPasswordResetEmail(auth, trimmedEmail);
       setSuccessMessage("Password reset link sent! Check your email.");
       setEmail("");
     } catch (error: any) {

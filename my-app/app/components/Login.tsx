@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { auth } from "../firebase/init";
-import { getAuth, GoogleAuthProvider, signInWithPopup, UserCredential, signInAnonymously, signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, UserCredential, signInAnonymously, signInWithEmailAndPassword } from "firebase/auth";
 import google from "../assets/google.png";
 import Signup from "../components/Signup";
 import Resetpass from "../components/Resetpass";
 
 type LoginProps = {
   onClose: () => void;
-  onSuccess?: () => void;
 };
 
 function Login({ onClose }: LoginProps) {

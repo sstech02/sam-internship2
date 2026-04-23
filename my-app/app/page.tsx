@@ -48,7 +48,7 @@ export default function Home() {
 
   return (
     <div id="__next">
-      <div className= "wrapper wrapper__full">
+      <div className="wrapper wrapper__full">
         {showLogin && <Login onClose={() => setShowLogin(false)} />}
   <nav className="nav">
     <div className="nav__wrapper">
