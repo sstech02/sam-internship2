@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import logo from "./assets/logo.png";
 import landing from "./assets/landing.png";
 import Login from "./components/Login";
+
 //Heading Animations Text
 
 const headings1 = [
