@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { auth } from "../firebase/init";
 import { GoogleAuthProvider, signInWithPopup, UserCredential, signInAnonymously, signInWithEmailAndPassword } from "firebase/auth";
 import google from "../assets/google.png";
@@ -15,6 +16,7 @@ function Login({ onClose }: LoginProps) {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
   const provider = new GoogleAuthProvider()
   
   async function login(e: React.FormEvent<HTMLFormElement>) {
@@ -26,7 +28,9 @@ function Login({ onClose }: LoginProps) {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      
       onClose();
+      router.push('/for-you')
     } catch (error: any) {
       if (
         error.code === "auth/user-not-found" ||
@@ -45,6 +49,7 @@ function Login({ onClose }: LoginProps) {
 
     try {
       await signInAnonymously(auth);
+      router.push('/for-you')
       onClose();
     } catch (error: any) {
       if (error.code === "auth/operation-not-allowed") {
@@ -66,8 +71,8 @@ function Login({ onClose }: LoginProps) {
     const user = result.user;
 
     console.log("Successfully signed in with Google!", { user, token });
-    // You can now access user.displayName, user.email, user.photoURL, etc.
-    // Update your UI or navigate the user to another page.
+    onClose();
+    router.push('/for-you');
 
   } catch (error: any) {
     // Handle Errors here.

@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Summarist Home Page",
+  title: "Summarist",
   description: "Great summaries for busy people",
 };
 
