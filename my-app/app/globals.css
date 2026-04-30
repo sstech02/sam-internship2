@@ -2210,15 +2210,18 @@ input {
     line-height: 1.5
 }
 
+
 .collapse {
-    position: relative;
-    height: 0;
+    max-height: 0;
     overflow: hidden;
-    transition: height .35s ease
+    visibility: hidden;
+    transition: max-height .35s ease, visibility 0s .35s;
 }
 
 .collapse.show {
-    height: auto
+    max-height: 1000px;
+    visibility: visible;
+    transition: max-height .35s ease, visibility 0s 0s;
 }
 
 @media (max-width: 768px) {
