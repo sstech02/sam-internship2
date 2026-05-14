@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from 'react'
 import SearchBar from '../components/SearchBar'
+import { auth } from '../firebase/init'
+import { signOut } from 'firebase/auth'
+import { useRouter } from 'next/navigation'
 
 const API_BASE =
   'https://us-central1-summaristt.cloudfunctions.net/getBooks?status='
@@ -233,6 +236,12 @@ function ForYouPage () {
     recommended: [],
     suggested: []
   })
+  const router = useRouter()
+
+  async function handleLogout () {
+    await signOut(auth)
+    router.push('/')
+  }
 
   useEffect(() => {
     async function loadData () {
@@ -440,7 +449,11 @@ function ForYouPage () {
                 </div>
                 <div className='sidebar__link--text'>Help &amp; Support</div>
               </div>
-              <div className='sidebar__link--wrapper'>
+              <div
+                className='sidebar__link--wrapper'
+                style={{ cursor: 'pointer' }}
+                onClick={handleLogout}
+              >
                 <div className='sidebar__link--line ' />
                 <div className='sidebar__icon--wrapper'>
                   <svg
